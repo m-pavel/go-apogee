@@ -182,7 +182,7 @@ func (l *LibUsbFct) mkApogee(d *gousb.DeviceDesc) (*Apogee, error) {
 	ap.SetLightSource(l.LightType)
 	err := ap.cmm.Open(l.Debug)
 	if err != nil {
-		log.Println("Error opening %s : %s\n", d, err)
+		log.Printf("Error opening %s : %s\n", d, err)
 		if strings.Contains(err.Error(), "device or resource busy [code -6]") {
 			log.Println("Try to rmmod cdc_acm.")
 		}
@@ -205,7 +205,7 @@ func (l *LibUsbFct) mkApogee(d *gousb.DeviceDesc) (*Apogee, error) {
 			}
 			err = fnc(&ap)
 			if err != nil {
-				log.Println("Error getting %s with retry of the device %s : %s\n", entity, d, err)
+				log.Printf("Error getting %s with retry of the device %s : %s\n", entity, d, err)
 			}
 			return err
 		}

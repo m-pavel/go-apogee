@@ -16,13 +16,14 @@ import (
 )
 
 func main() {
-
 	var logf = flag.String("log", "exporter.log", "log")
 	var pid = flag.String("pid", "exporter.pid", "pid")
 	var notdaemonize = flag.Bool("n", false, "Do not do to background.")
 	var signal = flag.String("s", "", `send signal to the daemon stop — shutdown`)
 	var iserver = flag.String("influx", "http://localhost:8086", "http://localhost:8086")
 	flag.Parse()
+
+	log.SetFlags(log.Ltime | log.Lshortfile)
 
 	daemon.AddCommand(daemon.StringFlag(signal, "stop"), syscall.SIGTERM, termHandler)
 
