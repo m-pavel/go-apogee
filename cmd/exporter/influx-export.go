@@ -83,6 +83,7 @@ func daemonf(server string) {
 		log.Fatal(err)
 	}
 	defer device.Close()
+	failcnt := 0
 	for {
 		exit := false
 		select {
@@ -92,6 +93,10 @@ func daemonf(server string) {
 		case <-time.After(time.Second):
 		}
 
+		if failcnt >= 10 {
+			break
+		}
+
 		if exit {
 			break
 		}
@@ -99,12 +104,15 @@ func daemonf(server string) {
 		v, err := readData(device)
 		if err != nil {
 			log.Println(err)
+			failcnt+=1
 		} else {
 			err = logData(v, c, bp)
 			if err != nil {
 				log.Println(err)
+				failcnt+=1
 			} else {
 				log.Printf("Written %f\n", v)
+				failcnt = 0
 			}
 		}
 	}
