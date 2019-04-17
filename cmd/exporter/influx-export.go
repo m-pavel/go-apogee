@@ -103,12 +103,12 @@ func daemonf(server string) {
 
 		v, err := readData(device)
 		if err != nil {
-			log.Println(err)
+			log.Printf("%d - %v\n",err,failcnt)
 			failcnt+=1
 		} else {
 			err = logData(v, c, bp)
 			if err != nil {
-				log.Println(err)
+				log.Printf("%d - %v\n",err,failcnt)
 				failcnt+=1
 			} else {
 				log.Printf("Written %f\n", v)
