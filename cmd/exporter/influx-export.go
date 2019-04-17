@@ -9,7 +9,6 @@ import (
 	"github.com/influxdata/influxdb/client/v2"
 	"github.com/sevlyar/go-daemon"
 
-	"net/http"
 	"log"
 	"github.com/m-pavel/go-apogee/lib"
 
@@ -55,9 +54,9 @@ func main() {
 			return
 		}
 	}
-	go func() {
-		log.Println(http.ListenAndServe(":6060", nil))
-	}()
+	//go func() {
+	//	log.Println(http.ListenAndServe(":6060", nil))
+	//}()
 	daemonf(*iserver)
 }
 
@@ -80,43 +79,45 @@ func daemonf(server string) {
 	cmnc := apogee.LibUsbFct{LightType: apogee.Sunlight, Debug: false}
 	device, err := apogee.FindUsbOne(&cmnc)
 	if err != nil {
-		log.Fatal(err)
+//		log.Fatal(err)
 	}
 	defer device.Close()
 	failcnt := 0
-	for {
-		exit := false
-		select {
-		case <-stop:
-			exit = true
-			break
-		case <-time.After(time.Second):
-		}
+	if false {
+		for {
+			exit := false
+			select {
+			case <-stop:
+				exit = true
+				break
+			case <-time.After(time.Second):
+			}
 
-		if failcnt >= 10 {
-			break
-		}
+			if failcnt >= 10 {
+				break
+			}
 
-		if exit {
-			break
-		}
+			if exit {
+				break
+			}
 
-		v, err := readData(device)
-		if err != nil {
-			log.Printf("%d - %v\n",err,failcnt)
-			failcnt+=1
-		} else {
-			err = logData(v, c, bp)
+			v, err := readData(device)
 			if err != nil {
-				log.Printf("%d - %v\n",err,failcnt)
-				failcnt+=1
+				log.Printf("%d - %v\n", err, failcnt)
+				failcnt += 1
 			} else {
-				log.Printf("Written %f\n", v)
-				failcnt = 0
+				err = logData(v, c, bp)
+				if err != nil {
+					log.Printf("%d - %v\n", err, failcnt)
+					failcnt += 1
+				} else {
+					log.Printf("Written %f\n", v)
+					failcnt = 0
+				}
 			}
 		}
 	}
-	done <- struct{}{}
+	//done <- struct{}{}
 }
 
 func readData(device *apogee.Apogee) (float32, error) {
