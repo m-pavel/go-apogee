@@ -28,7 +28,7 @@ func main() {
 	var notdaemonize = flag.Bool("n", false, "Do not do to background.")
 	var signal = flag.String("s", "", `send signal to the daemon stop — shutdown`)
 	var mqtt = flag.String("mqtt", "tcp://localhost:1883", "MQTT endpoint")
-	var topic = flag.String("t", "nn/tion", "MQTT topic")
+	var topic = flag.String("t", "nn/apogee", "MQTT topic")
 	var user = flag.String("mqtt-user", "", "MQTT user")
 	var pass = flag.String("mqtt-pass", "", "MQTT password")
 
