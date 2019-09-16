@@ -76,7 +76,7 @@ func daemonf(mqtt, topic string, u, p string, interval int) {
 	}()
 
 	opts := MQTT.NewClientOptions().AddBroker(mqtt)
-	opts.SetClientID("temper-go-cli")
+	opts.SetClientID("apogee-go-cli")
 	if u != "" {
 		opts.Username = u
 		opts.Password = p
