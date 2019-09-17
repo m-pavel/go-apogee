@@ -6,7 +6,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/influxdata/influxdb/client/v2"
+	"github.com/influxdata/influxdb1-client/v2"
 	"github.com/sevlyar/go-daemon"
 
 	"github.com/m-pavel/go-apogee/lib"
