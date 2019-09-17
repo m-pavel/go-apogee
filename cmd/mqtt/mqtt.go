@@ -38,6 +38,5 @@ func (ts ApogeeService) Close() error {
 }
 
 func main() {
-	hmss := ghm.NewStub(&ApogeeService{})
-	hmss.Main()
+	ghm.NewStub(&ApogeeService{}).Main()
 }
