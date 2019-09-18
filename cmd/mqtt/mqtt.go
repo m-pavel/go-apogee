@@ -18,7 +18,7 @@ type Request struct {
 func (ts ApogeeService) PrepareCommandLineParams() {}
 func (ts ApogeeService) Name() string              { return "apogee" }
 
-func (ts *ApogeeService) Init(client MQTT.Client, topic, topicc, topica string, debug bool) error {
+func (ts *ApogeeService) Init(client MQTT.Client, topic, topicc, topica string, debug bool, ss ghm.SendState) error {
 	var err error
 	ts.a, err = apogee.FindUsbOne(&apogee.LibUsbFct{LightType: apogee.Sunlight, Debug: false})
 	return err
