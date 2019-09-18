@@ -24,7 +24,7 @@ func (ts *ApogeeService) Init(client MQTT.Client, topic, topicc, topica string, 
 	return err
 }
 
-func (ts ApogeeService) Do(client MQTT.Client) (interface{}, error) {
+func (ts ApogeeService) Do() (interface{}, error) {
 	v, err := ts.a.Read()
 	if err != nil {
 		return nil, err
