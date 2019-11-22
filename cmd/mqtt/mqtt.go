@@ -29,7 +29,9 @@ func (ts ApogeeService) Do() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	if v < 0 {
+		v = 0
+	}
 	return &Request{Sun: v}, nil
 }
 
