@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/m-pavel/go-apogee/lib"
 	"github.com/m-pavel/go-hassio-mqtt/pkg"
 	_ "net/http"
@@ -10,6 +9,7 @@ import (
 )
 
 type ApogeeService struct {
+	ghm.NonListerningService
 	a         *apogee.Apogee
 	lightType *string
 }
@@ -21,14 +21,13 @@ func (ts *ApogeeService) PrepareCommandLineParams() {
 	ts.lightType = flag.String("light", "sun", "sun or electric")
 }
 func (ts ApogeeService) Name() string { return "apogee" }
-
-func (ts *ApogeeService) Init(client MQTT.Client, topic, topicc, topica string, debug bool, ss ghm.SendState) error {
+func (ts *ApogeeService) Init(ctx *ghm.ServiceContext) error {
 	lt := apogee.Sunlight
 	if "electric" == *ts.lightType {
 		lt = apogee.Electric
 	}
 	var err error
-	ts.a, err = apogee.FindUsbOne(&apogee.LibUsbFct{LightType: lt, Debug: debug})
+	ts.a, err = apogee.FindUsbOne(&apogee.LibUsbFct{LightType: lt, Debug: ctx.Debug()})
 	return err
 }
 
